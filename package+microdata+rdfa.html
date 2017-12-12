@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<link rel="alternate" type="application/json" href="{{ request.path }}.json">
+
+<title itemprop="title" itemscope itemtype="http://schema.org/about"
+   property="about" typeof="Thing"> {{ package.title }}</title>
+
+<body itemscope itemtype="http://schema.org/DeliveryEvent"
+      vocab="http://schema.org/">
+
+<a href="http://www.w3.org/2012/pyRdfa/extract?uri=referer">
+view data extracted from RDFa markup</a><br>
+<a href="http://getschema.org/microdataextractor?url={{ request.url }}&out=json">
+view data extracted from microdata markup</a><br>
+<a href="{{ request.path }}.json">
+view data as JSON-LD</a>
+
+<div itemscope itemtype="http://schema.org/DeliveryEvent"
+     vocab="http://schema.org" typeof="DeliveryEvent">
+
+    <h1 class="package_id" itemprop="identifier"
+        property="identifier" >{{package.package_id }}</h1>
+
+    <div class="recipient" itemprop="actor" itemscope itemtype="http://schema.org/Person"
+         property="actor" typeof="Person"> {{package.recipient }}>
+    </div>
+
+    <div class="address" itemprop="location" itemscope itemtype="http://schema.org/PostalAddress"
+         property="location" typeof="PostalAddress"> {{package.address }}>
+    </div>
+
+    <div class="location" itemprop="location" itemscope itemtype="http://schema.org/Place"
+         property="location" typeof="Place"> {{package.location }}
+    </div>
+
+    <div class="access_code" itemprop="accessCode"
+         property="accessCode">{{package.access_code }}>
+    </div>
+
+    <time class="time_received" itemprop="availableFrom" itemscope itemtype="http://schema.org/DateTime"
+          property="availableFrom" typeof="DateTime" datetime="{{ package.time_received }}">
+        {{ package.time_received }}</time>
+</div>
+
+<form class="package-editor" method="patch">
+
+    <label>location<br>
+     <input name="location" type="text">
+  </label>
+
+  <label>access code<br>
+     <input name="access_code" type="text">
+  </label>
+  <br>
+  <input class="update" type="submit" value="update package">
+
+  <script>
+    var form = document.querySelector('form.package-editor');
+    var button = document.querySelector('form.package-editor input.update');
+
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      var request = new XMLHttpRequest();
+      request.open('PATCH', window.location.pathname);
+      request.onreadystatechange = function () {
+        if (XMLHttpRequest.DONE === request.readyState
+            && 200 === request.status) {
+          window.location.reload(true);
+        }
+      }
+      request.send(new FormData(form));
+    }, false);
+  </script>
+</form>
+
+<form class="package-deleter" method="delete">
+  <label>Delete Package<br>
+     <input type="checkbox" name="Would you like to delete this package?">
+  </label>
+  <br>
+  <input class="delete" type="submit" value="delete package">
+
+  <script>
+    var form = document.querySelector('form.package-deleter');
+    var button = document.querySelector('form.package-deleter input.update');
+
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      var request = new XMLHttpRequest();
+      request.open('DELETE', window.location.pathname);
+      request.onreadystatechange = function () {
+        if (XMLHttpRequest.DONE === request.readyState
+            && 200 === request.status) {
+          window.location.reload(true);
+        }
+      }
+      request.send(new FormData(form));
+    }, false);
+  </script>
+</form>
+
+
+<a rel="collection" href="{{ url_for('package_inventory') }}">all packages</a>
+</body>

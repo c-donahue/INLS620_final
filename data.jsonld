@@ -1,0 +1,48 @@
+{ "@context":
+  { "packagecenter_locker_system": "https://  ",
+    "PackageInventory":
+    { "@id": "http://www.w3.org/2000/01/rdf-schema#member",
+      "@container": "@index"
+    },
+    "title": "http://schema.org/about",
+    "package_id": "http://schema.org/identifier",
+    "recipient": "http://schema.org/actor",
+    "address": "http://schema.org/location",
+    "time_received": "http://schema.org/availableFrom"
+    "location": "http://schema.org/location",
+    "access_code": "http://schema.org/accessCode"
+  },
+  "@id": "packages",
+  "packages":
+  { "z13ik5" :
+    { "@type": "packagecenter_locker_system:Package",
+      "@id": "package/z13ik5",
+      "title" : "Package z13ik5",
+      "recipient" : "Chris Donahue",
+      "address" : "100 UNC St, Chapel Hill NC 27516",
+      "time_received": "12.6.2017;10:05"
+      "location" : "locker 22",
+      "access_code" : "2121",
+    },
+    "13t1fm":
+    { "@type": "packagecenter_locker_system:Package",
+      "@id": "package/13t1fm",
+      "title" : "Package 13t1fm",
+      "recipient" : "Sum Guy",
+      "address" : "400 Chapel St, Chapel Hill NC 27516",
+      "time_received": "12.1.2017;16:39"
+      "location" : "locker 18",
+      "access_code" : "9522",
+    },
+    "3s31q7":
+    { "@type": "packagecenter_locker_system:Package",
+      "@id": "package/3s31q7",
+      "title" : "Package 3s31q7",
+      "recipient" : "Joel Berry",
+      "address" : "12 Hill St, Chapel Hill NC 27516",
+      "time_received": "11.26.2017;8:58"
+      "location" : "locker 4",
+      "access_code" : "8102",
+    },
+  }
+}

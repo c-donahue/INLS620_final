@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<link rel="alternate" type="application/json" href="{{ request.path }}.json">
+
+<title>Package Center Inventory</title>
+
+{% if request.args["sort_by"] == "priority" %}
+<a href="{{ url_for('packageinventory') }}?sort_by=time">sort by time</a>
+{% else %}
+
+<form class="search" method="get">
+  <input name="query" type="text" value="{{ request.args['query'] }}">
+  {% if 'sort_by' in request.args %}
+  <input name="sort_by" type="hidden" value="{{ request.args['sort_by'] }}">
+  {% endif %}
+  <input class="query" type="submit" value="search">
+</form>
+
+
+<ol>
+  {% for package_id, package in packages %}
+  <li itemscope
+      itemid="{{ url_for('package',package_id=package_id, _external=True) }}"
+      resource="{{ url_for('package', package_id=package_id, _external=True) }}"
+      vocab="http://schema.org/"
+      typeof="DeliveryEvent">
+    <div itemprop="http://www.w3.org/ns/md#item"
+         itemscope itemtype="http://schema.org/DeliveryEvent">
+    <time class = "time_received"
+          itemprop="availableFrom"
+          itemscope itemtype="http://schema.org/DateTime"
+          property="availableFrom"
+          typeof="DateTime"
+          datetime="{{package.timeReceived}}">{{ package.timeReceived }}</time>
+
+
+  <a href="{{ url_for('package', package_id=package_id) }}">
+      <span class="title" itemprop="about" property="about">{{ package.title }}</span>
+    </a>
+    </div>
+  </li>
+  {% endfor %}
+</ol>
+
+
+<form class="package-editor" action="{{ url_for('packageinventory') }}" method="post">
+  <label>title
+    <input name="title" type="text">
+  </label>
+  <br>
+  <label>>recipient
+    <input name="recipient" type="text">
+  </label>
+  <br>
+  <label>>address
+    <input name="address" type="text">
+  </label>
+  <br>
+  <label>>location
+    <input name="location" type="text">
+  </label>
+  <br>
+  <label>>access code
+    <input name="access_code" type="text">
+  </label>
+  <input class="create" type="submit" value="create new package">
+</form>
